@@ -3,6 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(cua-mode t nil (cua-base))
  '(org-agenda-files
    (quote
     ("~/REPOS/TODO/inbox_working.org" "~/REPOS/TODO/TODO-MASTER.ORG" "~/REPOS/TODO/refile.org" "~/REPOS/TODO/agile_war.org")))
@@ -55,6 +56,7 @@
     (ascii beamer html icalendar latex md odt org confluence freemind rss taskjuggler)))
  '(org-export-with-email t)
  '(org-export-with-emphasize t)
+ '(org-export-with-section-numbers nil)
  '(org-export-with-toc nil)
  '(org-modules
    (quote
@@ -68,7 +70,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:family "Ubuntu Mono" :foundry "DAMA" :slant normal :weight normal :height 139 :width normal)))))
 (autoload 'ledger-mode "ledger-mode" "A major mode for Ledger" t)
 (add-to-list 'load-path
 	     (expand-file-name "/home/aaron/.emacs.d/ledger-mode-master"))
