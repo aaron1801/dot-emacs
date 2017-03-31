@@ -4,6 +4,15 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(cua-mode t nil (cua-base))
+ '(ledger-reports
+   (quote
+    (("b" "ledger ")
+     ("a" "	")
+     ("test" "ledger ")
+     ("bal" "%(binary) -f %(ledger-file) bal")
+     ("reg" "%(binary) -f %(ledger-file) reg")
+     ("payee" "%(binary) -f %(ledger-file) reg @%(payee)")
+     ("account" "%(binary) -f %(ledger-file) reg %(account)"))))
  '(org-agenda-files
    (quote
     ("~/REPOS/TODO/inbox_working.org" "~/REPOS/TODO/TODO-MASTER.ORG" "~/REPOS/TODO/refile.org" "~/REPOS/TODO/agile_war.org")))
@@ -50,6 +59,7 @@
  '(org-clock-report-include-clocking-task t)
  '(org-clock-resolve-expert t)
  '(org-confirm-babel-evaluate nil)
+ '(org-crypt-disable-auto-save (quote ask))
  '(org-datetree-add-timestamp (quote inactive))
  '(org-export-backends
    (quote
@@ -63,7 +73,10 @@
     (org-bbdb org-bibtex org-crypt org-docview org-eww org-gnus org-id org-info org-irc org-mhe org-protocol org-rmail org-w3m org-checklist orgtbl-sqlinsert)))
  '(org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar")
  '(org-timer-display (quote both))
- '(paradox-github-token t))
+ '(paradox-github-token t)
+ '(send-mail-function (quote smtpmail-send-it))
+ '(smtpmail-smtp-server "smtp.gmail.com")
+ '(smtpmail-smtp-service 25))
 (global-set-key (kbd "C-c c") 'org-capture)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
