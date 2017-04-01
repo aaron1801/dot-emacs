@@ -3,7 +3,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
  '(cua-mode t nil (cua-base))
+ '(custom-enabled-themes (quote (wheatgrass)))
+ '(custom-safe-themes
+   (quote
+    ("c95bd407d6c810cd4c186404c8ad3d48eeabbee924215dc086ca29d8cd25e083" default)))
  '(ledger-reports
    (quote
     (("b" "ledger ")
@@ -88,3 +94,15 @@
 (add-to-list 'load-path
 	     (expand-file-name "/home/aaron/.emacs.d/ledger-mode-master"))
 (add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode))
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
+(when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+  (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
+(package-initialize)
+(global-set-key (kbd "C-c n") 'org-board-keymap)
+  ;; For Special Bullets from http://howardism.org/Technical/Emacs/orgmode-wordprocessor.html
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+(let* ((variable-tuple (cond ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))))))
