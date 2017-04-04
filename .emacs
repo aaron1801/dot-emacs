@@ -5,6 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
+ '(browse-url-browser-function (quote browse-url-firefox))
  '(cua-mode t nil (cua-base))
  '(custom-enabled-themes (quote (wheatgrass)))
  '(custom-safe-themes
@@ -97,12 +98,9 @@
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
-(when (< emacs-major-version 24)
-  ;; For important compatibility libraries like cl-lib
-  (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
+(when (< emacs-major-version 24))
+;; For important compatibility libraries like cl-lib
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
 (package-initialize)
 (global-set-key (kbd "C-c n") 'org-board-keymap)
   ;; For Special Bullets from http://howardism.org/Technical/Emacs/orgmode-wordprocessor.html
-(require 'org-bullets)
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-(let* ((variable-tuple (cond ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))))))
