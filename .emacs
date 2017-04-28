@@ -70,7 +70,7 @@
  '(org-datetree-add-timestamp (quote inactive))
  '(org-export-backends
    (quote
-    (ascii beamer html icalendar latex md odt org confluence freemind rss taskjuggler)))
+    (ascii beamer html icalendar latex md odt org confluence deck freemind rss s5 taskjuggler)))
  '(org-export-with-email t)
  '(org-export-with-emphasize t)
  '(org-export-with-section-numbers nil)
@@ -103,4 +103,7 @@
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
 (package-initialize)
 (global-set-key (kbd "C-c n") 'org-board-keymap)
-  ;; For Special Bullets from http://howardism.org/Technical/Emacs/orgmode-wordprocessor.html
+;; For Special Bullets from http://howardism.org/Technical/Emacs/orgmode-wordprocessor.html
+(require 'package)
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(require 'ox-s5)
