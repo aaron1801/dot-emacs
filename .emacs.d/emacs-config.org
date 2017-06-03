@@ -1,0 +1,433 @@
+#+TITLE:     emacs-config.org
+#+AUTHOR:    Aaron Warren
+#+EMAIL:     email@aaronwarren.com
+#+STARTIP:   overview 
+* BACKGROUND INFO
+You can use Daniel Mai's config.org (and init.el) to get started: https://github.com/danielmai/.emacs.d/blob/master/config.org. Also check out the YouTube videos (2 parts) https://youtu.be/VIuOwIBL-ZU. You won't regret converting your init.el to org-mode.
+* Interface Tweaks
+#+BEGIN_SRC emacs-lisp
+(tool-bar-mode -1)
+(fset 'yes-or-no-p 'y-or-n-p)
+(global-set-key (kbd "<f5>") 'revert-buffer)
+(global-visual-line-mode 1)
+#+END_SRC
+* Try
+#+BEGIN_SRC emacs-lisp
+  (use-package try
+    :ensure t)
+#+END_SRC
+
+* Which key
+ brings up some help
+  #+BEGIN_SRC emacs-lisp 
+     (use-package which-key
+       :ensure t
+       :config (which-key-mode))
+   #+END_SRC
+* Package Archives Managers
+#+BEGIN_SRC emacs-lisp
+    (require 'package)
+    (add-to-list 'package-archives
+    '("melpa" . "https://melpa.org/packages/") t)
+  ;;      '("gnu" . "https://elpa.gnu.org/packages/"t)
+  ;;       '("org" . "http://orgmode.org/elpa/") t)
+    (package-initialize)
+
+    (unless (package-installed-p 'use-package)
+      (package-refresh-contents)
+      (package-install 'use package)) 
+#+END_SRC
+* Tabbar
+#+BEGIN_SRC emacs-lisp
+  (use-package tabbar
+    :ensure t
+    :config
+    (tabbar-mode 1))
+#+END_SRC
+* Auto Completion
+  Used for autocompletion
+ # +BEGIN_SRC emacs-lisp
+        (use-package auto-complete
+  	:ensure t
+  	:init
+  	(progn
+  	  (ac-config-default)
+  	  (global-auto-complete-mode t)
+  	  ))
+  #+END_SRC
+* Color Themes
+#+BEGIN_SRC emacs-lisp
+  (use-package color-theme
+   :ensure t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (wheatgrass))))
+#+END_SRC
+* Org-mode bullets
+#+BEGIN_SRC emacs-lisp
+(use-package org-bullets
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+#+END_SRC
+* Org-mode & Reveal.js
+[[https://github.com/yjwen/org-reveal#set-the-location-of-revealjs][ORG-REVEAL]]
+[[https://github.com/yjwen/org-reveal#set-the-location-of-revealjs][ORG-REVEAL]]
+#+BEGIN_SRC emacs-lisp 
+  (use-package ox-reveal
+    :ensure ox-reveal)
+
+  (setq org-reveal-root "https://cdn.jsdelivr.net/reveal.js/2.6.2")
+  ; (setq org-reveal-root "https://cdn.jsdelivr.net/reveal.js/3.5.0")
+  ; (setq org-reveal-root "http//cdn.jsdelivr.net/reveal.js/3.0.0")
+  (setq org-reveal-mathjax t)
+
+  (use-package htmlize
+    :ensure t)
+#+END_SRC
+
+* Counsel/Swiper
+[[https://github.com/abo-abo/swiper][Swiper, an Ivy-enhanced alternaXtive to isearch]]
+#+BEGIN_SRC emacs-lisp
+  (use-package counsel
+    :ensure t
+    :init)
+  
+  (use-package swiper
+      :ensure t
+      :config
+      (progn
+	(ivy-mode 1)
+	(setq ivy-use-virtual-buffers t)
+	(setq enable-recursive-minibuffers t)
+	(global-set-key "\C-s" 'swiper)
+	(global-set-key (kbd "C-c C-r") 'ivy-resume)
+	(global-set-key (kbd "<f6>") 'ivy-resume)
+	(global-set-key (kbd "M-x") 'counsel-M-x)
+	(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+	(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+	(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+	(global-set-key (kbd "<f1> l") 'counsel-find-library)
+	(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+	(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+	(global-set-key (kbd "C-c g") 'counsel-git)
+	(global-set-key (kbd "C-c j") 'counsel-git-grep)
+	(global-set-key (kbd "C-c k") 'counsel-ag)
+	(global-set-key (kbd "C-x l") 'counsel-locate)
+	(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+	(define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+	))
+
+#+END_SRC
+* Hydra
+* Misc
+ ;use-package expand-region
+* Flyycheck
+  [[http://www.flycheck.org/en/latest/][FlyCheck]]
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+	 :ensure t
+	 :init
+	 (global-flycheck-mode t))
+#+END_SRC
+* Python
+#+BEGIN_SRC emacs-lisp
+  (use-package jedi
+    :ensure t
+    :init
+    (add-hook 'python-mode-hook 'jedi:setup)
+    (add-hook 'python-mode-hook 'jedi:ac-setup))
+#+END_SRC
+
+* Time
+#+BEGIN_SRC emacs-lisp
+ (display-time-mode t)
+#+END_SRC
+* LAUNCHING WEB SEARCHES/ENGINE-MODE - Currently Disabled
++BEGIN_SRC emacs-lisp
+(use-package engine-mode
+  :ensure t
+  :init
+
+  (defengine duckduckgo
+  "https://duckduckgo.com/?q=%s"
+  :keybinding "d")
+
+  (defengine github
+  "https://github.com/search?ref=simplesearch&q=%s"))
+
+#+END_SRC
+* ORG-Capture
+#+BEGIN_SRC emacs-lisp
+  ;;store link to message if in header view, not to header query
+  (setq org-capture-templates
+	'(("t" "todo" entry (file+headline "~/todo.org" "Tasks")
+           "* TODO [#A] %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n")))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+'org-mu4e-store-and-capture
+#+END_SRC
+
+* MAIL - [MU4e] -              :OFF:
+** Referance/Manual 
+      - [[http://www.djcbsoftware.nl/code/mu/mu4e/][Mu4e 0.9.18 user manual]]
+#+BEGIN_SRC emacs-lisp
+    ;; (use-package mu4e
+    ;;  :ensure t
+    ;;  :config
+    ;;  ;; these are actually the defaults
+    (setq
+      mu4e-maildir       "~/Maildir"   ;; top-level Maildir
+      mu4e-sent-folder   "/sent"       ;; folder for sent messages
+      mu4e-drafts-folder "/drafts"     ;; unfinished messages
+      mu4e-trash-folder  "/trash"      ;; trashed messages
+      mu4e-refile-folder "/archive")   ;; saved messagess
+    ;;store link to message if in header view, not to header query
+    (require 'org-mu4e)
+  (setq org-mu4e-link-query-in-headers-mode nil)
+  (setq org-capture-templates
+	'(("e" "todo" entry (file+headline "~/todo.org" "Tasks")
+           "* TODO [#A] %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n")))
+#+END_SRC
+** SENDING MAIL (SMTP)
++BEGIN_SRC emacs-lisp
+ '(send-mail-function (quote smtpmail-send-it))
+ '(show-paren-mode t)
+ '(smtpmail-smtp-server "smtp.gmail.com")
+ '(smtpmail-smtp-service 25))
+#+END_SRC
+* LEDGER     :OFF:
+
++BEGIN_SRC emacs-lisp
+(autoload 'ledger-mode "ledger-mode" "A major mode for Ledger" t)
+(add-to-list 'load-path
+	     (expand-file-name "/home/aaron/.emacs.d/ledger-mode-master"))
+(add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode))
+'(ledger-reports
+   (quote
+    (("b" "ledger ")
+     ("a" "	")
+     ("test" "ledger ")
+     ("bal" "%(binary) -f %(ledger-file) bal")
+     ("reg" "%(binary) -f %(ledger-file) reg")
+     ("payee" "%(binary) -f %(ledger-file) reg @%(payee)")
+     ("account" "%(binary) -f %(ledger-file) reg %(account)"))))
+#+END_SRC
+* ORG-BABEL :OFF:
++BEGIN_SRC emacs-lisp
+ '(org-babel-load-languages
+   (quote
+    ((awk . t)
+     (emacs-lisp . t)
+     (python . t)
+     (shell . t)
+     (ledger . t)
+     (latex . t)
+     (plantuml . t)
+     (dot . t)
+     (ditaa . t)
+     (sql . t)
+     (sqlite . t)
+     (gnuplot . t)
+     (org . t)
+     (screen . t)
+     (ruby . t))))
+ '(org-confirm-babel-evaluate nil)
+#+END_SRC
+* IRC   :OFF:
++BEGIN_SRC emacs-lisp
+ '(erc-modules
+   (quote
+    (autoaway autojoin button completion fill irccontrols list match menu move-to-prompt netsplit networks noncommands readonly ring stamp track)))
+#+END_SRC
+* ORG-AGENDA :OFF:
+#+BEGIN_SRC emacs-lisp
+  '(org-agenda-files
+    (quote
+     ("~/REPOS/TODO/inbox_working.org" "~/REPOS/TODO/TODO-MASTER.ORG" "~/REPOS/TODO/WAR.org")))
+#+END_SRC
+* ORG-CAPTURE :OFF:
++BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c c") 'org-capture)
+ '(org-capture-templates
+   (quote
+    (("p" "Phone Call" entry
+      (file "~/REPOS/TODO/inbox_work.org")
+      "* DONE Phone call with %?" :clock-in t :clock-resume t)
+     ("m" "Meeting" entry
+      (file "~/REPOS/TODO/inbox_work.org")
+      "* %^{Meeting Time}T %^{Title}         " :prepend t :clock-in t :clock-resume t)
+     ("w" "Work Items" entry
+      (file "~/REPOS/TODO/inbox_work.org")
+      "* TODO %?" :empty-lines-after 1 :clock-in t :clock-resume t)
+     ("l" "Todo List test" entry
+      (file "~/REPOS/TODO/inbox_work.org")
+      "* TODO %^{Description}
+%?
+:LOGBOOK:
+- Added: %U
+:END" :prepend t :clock-in t :clock-resume t nil nil)
+     ("t" "email-todo-test" entry
+      (file+headline "~/REPOS/TODO/email-todo.org" "TASKS")
+      "* TODO [#A] %a\\n"))))
+
+ '(org-capture-templates-contexts nil)
+
+#+END_SRC
+* ORG-MODULES :OFF:
++BEGIN_SRC emacs-lisp
+ '(org-modules
+   (quote
+    (org-bbdb org-bibtex org-crypt org-docview org-eww org-gnus org-id org-info org-irc org-mhe org-protocol org-rmail org-w3m org-bookmark org-checklist org-eshell org-learn org-notmuch)))
+
+ '(org-crypt-disable-auto-save (quote ask))
+ '(org-datetree-add-timestamp (quote inactive))
+ '(org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar")
+ '(org-taskjuggler-default-project-duration 1024)
+ '(org-timer-display (quote both))
+ '(paradox-github-token t)
+
+#+END_SRC
+* ORG-EXPORT :OFF:
++BEGIN_SRC emacs-lisp
+'(org-export-backends
+   (quote
+    (ascii beamer html icalendar latex md odt org confluence deck freemind rss s5 taskjuggler)))
+ '(org-export-with-email t)
+ '(org-export-with-emphasize t)
+ '(org-export-with-section-numbers nil)
+ '(org-export-with-toc nil)
+#+END_SRC
+* ORG-CLOCK :OFF:
++BEGIN_SRC emacs-lisp
+'(org-clock-clocked-in-display (quote both))
+ '(org-clock-history-length 23)
+ '(org-clock-out-remove-zero-time-clocks t)
+ '(org-clock-persist t)
+ '(org-clock-report-include-clocking-task t)
+ '(org-clock-resolve-expert t)
+#+END_SRC
+* ORG-BOARD :OFF:
++BEGIN_SRC emacs-lisp
+  (use-package org-board
+    :ensure t
+    :config
+    (global-set-key (kbd "C-c b") org-board-keymap))    
+#+END_SRC
+
+* THE REST
+#+BEGIN_SRC emacs-lisp
+   '(browse-url-browser-function (quote browse-url-firefox))
+   '(cua-mode t nil (cua-base))
+   '(display-time-mode t)
+   '(elfeed-feeds (quote ("http://sachachua.com/blog/feed/")))
+   '(erc-modules
+     (quote
+      (autoaway autojoin button completion fill irccontrols list match menu move-to-prompt netsplit networks noncommands readonly ring stamp track)))
+   '(ledger-reports
+     (quote
+      (("b" "ledger ")
+       ("a" "	")
+       ("test" "ledger ")
+       ("bal" "%(binary) -f %(ledger-file) bal")
+       ("reg" "%(binary) -f %(ledger-file) reg")
+       ("payee" "%(binary) -f %(ledger-file) reg @%(payee)")
+       ("account" "%(binary) -f %(ledger-file) reg %(account)"))))
+   '(org-agenda-files
+     (quote
+      ("~/REPOS/TODO/inbox_working.org" "~/REPOS/TODO/TODO-MASTER.ORG" "~/REPOS/TODO/agile_war.org")))
+  '(org-babel-load-languages
+     (quote
+      ((awk . t)
+       (emacs-lisp . t)
+       (python . t)
+       (shell . t)
+       (ledger . t)
+       (latex . t)
+       (plantuml . t)
+       (dot . t)
+       (ditaa . t)
+       (sql . t)
+       (sqlite . t)
+       (gnuplot . t)
+       (org . t)
+       (screen . t)
+       (ruby . t))))
+
+   '(org-capture-templates
+     (quote
+      (("p" "Phone Call" entry
+	(file "~/REPOS/TODO/inbox_work.org")
+	"* DONE Phone call with %?" :clock-in t :clock-resume t)
+       ("m" "Meeting" entry
+	(file "~/REPOS/TODO/inbox_work.org")
+	"* %^{Meeting Time}T %^{Title}         " :prepend t :clock-in t :clock-resume t)
+       ("w" "Work Items" entry
+	(file "~/REPOS/TODO/inbox_work.org")
+	"* TODO %?" :empty-lines-after 1 :clock-in t :clock-resume t)
+       ("l" "Todo List test" entry
+	(file "~/REPOS/TODO/inbox_work.org")
+	"* TODO %^{Description} %? :LOGBOOK:- Added: %U :END" :prepend t :clock-in t :clock-resume t)
+       ("e" "email-todo" entry 
+	(file+headline "~/REPOS/TODO/email-todo.org" "Tasks")
+	"* TODO [#A] %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n"))))
+   '(org-capture-templates-contexts nil)
+   '(org-clock-clocked-in-display (quote both))
+   '(org-clock-history-length 23)
+   '(org-clock-out-remove-zero-time-clocks t)
+   '(org-clock-persist t)
+   '(org-clock-report-include-clocking-task t)
+   '(org-clock-resolve-expert t)
+   '(org-confirm-babel-evaluate nil)
+   '(org-crypt-disable-auto-save (quote ask))
+   '(org-datetree-add-timestamp (quote inactive))
+   '(org-export-backends
+     (quote
+      (ascii beamer html icalendar latex md odt org confluence deck freemind rss s5 taskjuggler)))
+   '(org-export-with-email t)
+   '(org-export-with-emphasize t)
+   '(org-export-with-section-numbers nil)
+   '(org-export-with-toc nil)
+   '(org-modules
+     (quote
+     (org-bbdb org-bibtex org-crypt org-docview org-eww org-gnus org-id org-info org-irc org-mhe org-protocol org-rmail org-w3m org-bookmark org-checklist org-eshell org-learn org-notmuch)))
+   '(org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar")
+   '(org-timer-display (quote both))
+   '(paradox-github-token t)
+   '(send-mail-function (quote smtpmail-send-it))
+   '(show-paren-mode t)
+
+   '(smtpmail-smtp-server "smtp.gmail.com")
+   '(smtpmail-smtp-service 25)
+ 
+  (global-set-key (kbd "C-c c") 'org-capture) 
+
+  (autoload 'ledger-mode "ledger-mode" "A major mode for Ledger" t)
+  (add-to-list 'load-path
+	       (expand-file-name "/home/aaron/.emacs.d/ledger-mode-master"))
+  (add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode))
+
+  (when (< emacs-major-version 24))
+  ;; For important compatibility libraries like cl-lib
+  (global-set-key (kbd "C-c n") 'org-board-keymap)
+
+  (require 'ox-s5)
+  ;; Load elfeed-org
+  (use-package elfeed-org
+    :ensure t
+    :config
+    (elfeed-org)
+    (setq rmh-elfeed-org-files (list "~/.elfeed/elfeed.org")))
+#+END_SRC 
+
+* End of File
+#+BEGIN_SRC emacs-lisp
+;;; end of file
+#+END_SRC

@@ -1,3 +1,11 @@
+
+
+
+;; The below lines/functions appear to be required
+
+(package-initialize)
+
+(org-babel-load-file (expand-file-name "~/.emacs.d/emacs-config.org"))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -11,6 +19,10 @@
  '(custom-safe-themes
    (quote
     ("c95bd407d6c810cd4c186404c8ad3d48eeabbee924215dc086ca29d8cd25e083" default)))
+ '(elfeed-feeds (quote ("http://sachachua.com/blog/feed/")))
+ '(erc-modules
+   (quote
+    (autoaway autojoin button completion fill irccontrols list match menu move-to-prompt netsplit networks noncommands readonly ring stamp track)))
  '(ledger-reports
    (quote
     (("b" "ledger ")
@@ -22,7 +34,7 @@
      ("account" "%(binary) -f %(ledger-file) reg %(account)"))))
  '(org-agenda-files
    (quote
-    ("~/REPOS/TODO/inbox_working.org" "~/REPOS/TODO/TODO-MASTER.ORG" "~/REPOS/TODO/refile.org" "~/REPOS/TODO/agile_war.org")))
+    ("~/REPOS/TODO/inbox_working.org" "~/REPOS/TODO/TODO-MASTER.ORG" "~/REPOS/TODO/WAR.org")))
  '(org-babel-load-languages
    (quote
     ((awk . t)
@@ -57,7 +69,10 @@
 %?
 :LOGBOOK:
 - Added: %U
-:END" :prepend t :clock-in t :clock-resume t))))
+:END" :prepend t :clock-in t :clock-resume t nil nil)
+     ("t" "email-todo-test" entry
+      (file+headline "~/REPOS/TODO/email-todo.org" "TASKS")
+      "* TODO [#A] %a\\n"))) t)
  '(org-capture-templates-contexts nil)
  '(org-clock-clocked-in-display (quote both))
  '(org-clock-history-length 23)
@@ -77,33 +92,18 @@
  '(org-export-with-toc nil)
  '(org-modules
    (quote
-    (org-bbdb org-bibtex org-crypt org-docview org-eww org-gnus org-id org-info org-irc org-mhe org-protocol org-rmail org-w3m org-checklist orgtbl-sqlinsert)))
+    (org-bbdb org-bibtex org-crypt org-docview org-eww org-gnus org-id org-info org-irc org-mhe org-protocol org-rmail org-w3m org-bookmark org-checklist org-eshell org-learn org-notmuch)))
  '(org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar")
+ '(org-taskjuggler-default-project-duration 1024)
  '(org-timer-display (quote both))
  '(paradox-github-token t)
  '(send-mail-function (quote smtpmail-send-it))
+ '(show-paren-mode t)
  '(smtpmail-smtp-server "smtp.gmail.com")
  '(smtpmail-smtp-service 25))
-(global-set-key (kbd "C-c c") 'org-capture)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Ubuntu Mono" :foundry "DAMA" :slant normal :weight normal :height 139 :width normal)))))
-(autoload 'ledger-mode "ledger-mode" "A major mode for Ledger" t)
-(add-to-list 'load-path
-	     (expand-file-name "/home/aaron/.emacs.d/ledger-mode-master"))
-(add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode))
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
-(when (< emacs-major-version 24))
-;; For important compatibility libraries like cl-lib
-(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
-(package-initialize)
-(global-set-key (kbd "C-c n") 'org-board-keymap)
-;; For Special Bullets from http://howardism.org/Technical/Emacs/orgmode-wordprocessor.html
-(require 'package)
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-(require 'ox-s5)
