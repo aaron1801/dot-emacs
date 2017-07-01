@@ -145,6 +145,11 @@ You can use Daniel Mai's config.org (and init.el) to get started: https://github
     (add-hook 'python-mode-hook 'jedi:ac-setup))
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+(use-package pyvenv
+    :ensure t
+    :init)
+#+END_SRC
 * Time
 #+BEGIN_SRC emacs-lisp
  (display-time-mode t)
